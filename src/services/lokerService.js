@@ -1,41 +1,20 @@
-import API from './api';
+import API from "./api";
+
+const dummyLokers = [
+  { _id: "loker-1", nomorLoker: "A1", jumlahBox: 3 },
+  { _id: "loker-2", nomorLoker: "A2", jumlahBox: 5 },
+  { _id: "loker-3", nomorLoker: "B1", jumlahBox: 0 },
+  { _id: "loker-4", nomorLoker: "B2", jumlahBox: 50 },
+];
 
 const lokerService = {
-  // Get all loker
-  getAllLoker: async () => {
-    const response = await API.get('/loker');
-    return response.data;
-  },
-
-  // Get loker by ID
-  getLokerById: async (id) => {
-    const response = await API.get(`/loker/${id}`);
-    return response.data;
-  },
-
-  // Create new loker
-  createLoker: async (data) => {
-    const response = await API.post('/loker', data);
-    return response.data;
-  },
-
-  // Update loker
-  updateLoker: async (id, data) => {
-    const response = await API.put(`/loker/${id}`, data);
-    return response.data;
-  },
-
-  // Delete loker
-  deleteLoker: async (id) => {
-    const response = await API.delete(`/loker/${id}`);
-    return response.data;
-  },
-
-  // Get boxes in specific loker
-  getBoxesByLoker: async (id) => {
-    const response = await API.get(`/loker/${id}/boxes`);
-    return response.data;
-  }
+  getAllLoker: async () => dummyLokers,
+  getLokerById: async (id) => dummyLokers.find((l) => l._id === id),
+  createLoker: async (data) => ({ ...data, _id: "loker-new" }),
+  updateLoker: async (id, data) => ({ ...data, _id: id }),
+  deleteLoker: async (id) => ({ success: true }),
+  getBoxesByLoker: async (id) =>
+    dummyBoxes.filter((b) => b.lokerId?._id === id),
 };
 
 export default lokerService;

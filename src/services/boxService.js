@@ -1,42 +1,51 @@
-import API from './api';
+import API from "./api";
+
+const dummyBoxes = [
+  {
+    _id: "box-1",
+    nomorBox: "B001",
+    lokerId: { _id: "loker-1", nomorLoker: "A1" },
+    jumlahDokumen: 12,
+  },
+  {
+    _id: "box-2",
+    nomorBox: "B002",
+    lokerId: { _id: "loker-1", nomorLoker: "A1" },
+    jumlahDokumen: 40,
+  },
+  {
+    _id: "box-3",
+    nomorBox: "B003",
+    lokerId: { _id: "loker-2", nomorLoker: "A2" },
+    jumlahDokumen: 0,
+  },
+  {
+    _id: "box-4",
+    nomorBox: "B004",
+    lokerId: { _id: "loker-2", nomorLoker: "A2" },
+    jumlahDokumen: 25,
+  },
+  {
+    _id: "box-5",
+    nomorBox: "B005",
+    lokerId: { _id: "loker-4", nomorLoker: "B2" },
+    jumlahDokumen: 38,
+  },
+];
 
 const boxService = {
-  // Get all boxes (optional: filter by lokerId)
   getAllBoxes: async (lokerId = null) => {
-    const params = lokerId ? { lokerId } : {};
-    const response = await API.get('/boxes', { params });
-    return response.data;
+    if (lokerId) return dummyBoxes.filter((b) => b.lokerId?._id === lokerId);
+    return dummyBoxes;
   },
-
-  // Get box by ID
-  getBoxById: async (id) => {
-    const response = await API.get(`/boxes/${id}`);
-    return response.data;
-  },
-
-  // Create new boxes (batch). Data: { lokerId: '...', jumlah: 2 }
-  createBox: async (data) => {
-    const response = await API.post('/boxes', data);
-    return response.data;
-  },
-
-  // Update box
-  updateBox: async (id, boxData) => {
-    const response = await API.put(`/boxes/${id}`, boxData);
-    return response.data;
-  },
-
-  // Delete box
-  deleteBox: async (id) => {
-    const response = await API.delete(`/boxes/${id}`);
-    return response.data;
-  },
-
-  // Export box content
+  getBoxById: async (id) => dummyBoxes.find((b) => b._id === id),
+  createBox: async (data) => ({ ...data, _id: "box-new" }),
+  updateBox: async (id, data) => ({ ...data, _id: id }),
+  deleteBox: async (id) => ({ success: true }),
   exportBox: async (id) => {
-    const response = await API.get(`/boxes/${id}/export`);
-    return response.data;
-  }
+    const box = dummyBoxes.find((b) => b._id === id);
+    return { box, dokumen: dummyDokumen.filter((d) => d.boxId?._id === id) };
+  },
 };
 
 export default boxService;
