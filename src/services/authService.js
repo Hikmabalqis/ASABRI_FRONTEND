@@ -1,48 +1,34 @@
-import API from './api';
+// DEMO MODE - tidak ada API call
 
 const authService = {
-  // Register admin baru
   register: async (userData) => {
-    const response = await API.post('/auth/register', userData);
-    if (response.data.token) {
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('admin', JSON.stringify(response.data));
-    }
-    return response.data;
+    // Demo: tidak dipakai
+    return userData;
   },
 
-  // Login
   login: async (credentials) => {
-    const response = await API.post('/auth/login', credentials);
-    if (response.data.token) {
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('admin', JSON.stringify(response.data));
-    }
-    return response.data;
+    // Logic login ada di AuthContext, ini tidak dipakai langsung
+    return credentials;
   },
 
-  // Logout
   logout: () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('admin');
+    localStorage.removeItem("token");
+    localStorage.removeItem("admin");
   },
 
-  // Get current admin
   getMe: async () => {
-    const response = await API.get('/auth/me');
-    return response.data;
-  },
-
-  // Get admin from localStorage
-  getCurrentAdmin: () => {
-    const admin = localStorage.getItem('admin');
+    const admin = localStorage.getItem("admin");
     return admin ? JSON.parse(admin) : null;
   },
 
-  // Check if logged in
+  getCurrentAdmin: () => {
+    const admin = localStorage.getItem("admin");
+    return admin ? JSON.parse(admin) : null;
+  },
+
   isLoggedIn: () => {
-    return !!localStorage.getItem('token');
-  }
+    return !!localStorage.getItem("token");
+  },
 };
 
 export default authService;
